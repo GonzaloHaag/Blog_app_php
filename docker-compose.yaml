@@ -1,0 +1,28 @@
+## Configuracion de nuestro servicio
+version: '3.7'
+services:
+  mysql:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mysql-container-blog ## Nombre del container
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "12345" ##password para user root
+      MYSQL_DATABASE: "curso_php_blog" ## nombre de la database
+      MYSQL_USER: "userdb" ##Usuario nuevo
+      MYSQL_PASSWORD: "12345" ##password usuario nuevo
+    volumes:
+      - ./schemas:/var/lib/mysql:rw ## Persistencia
+    networks:
+      mysql_network:
+        aliases:
+          - mysql_host
+volumes:
+  schemas: {}
+networks:
+  mysql_network:
+    name: mysql_net
+    driver: bridge
